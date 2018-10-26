@@ -7,14 +7,15 @@ public class Conexion {
 	
 	private static Connection CONEXION=null;
     	public static Connection getConnection() throws URISyntaxException{
-        String HOST = "ec2-107-20-224-137.compute-1.amazonaws.com"; 
-        String DATABASE = "d6j8eh4olqp7sf";
-        String USER = "ltnyegtwutgjxo";
-        String PASS = "ff2803b95ea5006c67a9dc93a7ecce2ccb82ec00075c50a33b1aa76199f2b2c2";
+//        String HOST = "ec2-107-20-224-137.compute-1.amazonaws.com"; 
+//        String DATABASE = "d6j8eh4olqp7sf";
+//        String USER = "ltnyegtwutgjxo";
+//        String PASS = "ff2803b95ea5006c67a9dc93a7ecce2ccb82ec00075c50a33b1aa76199f2b2c2";
 
-//      URI dbUri = new URI(System.getenv("DATABASE_URL"));
-//      String username = dbUri.getUserInfo().split(":")[0];
-//      String password = dbUri.getUserInfo().split(":")[1];
+URI dbUri = new URI(System.getenv("DATABASE_URL"));
+String username = dbUri.getUserInfo().split(":")[0];
+String password = dbUri.getUserInfo().split(":")[1];
+String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
         String dbUrl = "jdbc:postgresql://" +
                 HOST + "/" + DATABASE +
                 "?user=" + USER  + "&password=" + 
@@ -22,7 +23,7 @@ public class Conexion {
     
 		   if(CONEXION == null){
 			  	try {
-					CONEXION = DriverManager.getConnection(dbUrl);
+					CONEXION =  DriverManager.getConnection(dbUrl, username, password);
                         	} catch (SQLException e) {
 					System.out.println("Connection Failed! Check output console");
 					e.printStackTrace();
